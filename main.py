@@ -30,15 +30,21 @@ def main():
             ORDER BY release_year DESC
             LIMIT 1             
         """
-        response = db_connect(query)[0]
-        response_json = {
-            'title': response[0],
-            'country': response[1],
-            'release_year': response[2],
-            'listed_in': response[3],
-            'description': response[4],
-        }
-        return jsonify(response_json)
+        response = db_connect(query)
+
+        if len(response) > 0:
+            first_movie = response[0]
+            response_json = {
+                'title': first_movie[0],
+                'country': first_movie[1],
+                'release_year': first_movie[2],
+                'listed_in': first_movie[3],
+                'description': first_movie[4],
+            }
+            return jsonify(response_json)
+
+        else:
+            return f"Нет такого фильма"
 
 
 
@@ -60,7 +66,7 @@ def main():
                 'title': film[0],
                 'release_year': film[1]
             })
-        return jsonify(response_json)
+    #    return jsonify(response_json)
 
 
 
@@ -93,7 +99,7 @@ def main():
                 'rating': film[1],
                 'description': film[2]
             })
-        return jsonify(response_json)
+     #   return jsonify(response_json)
 
     @app.route('/genre/<genre>')
     def search_by_genre(genre):
@@ -113,9 +119,9 @@ def main():
                 'title': film[0],
                 'description': film[1]
             })
-        return jsonify(response_json)
+    #    return jsonify(response_json)
 
-   # app.run(debug=True)
+    app.run(debug=True)
 
     def get_actors(self, name1, name2):
         query = f"""
@@ -153,11 +159,11 @@ def main():
                 'description': film[1],
                 'type': film[2]
             })
-        return(response_json)
+    #    return(response_json)
 
 
-    get_films()
-    get_actors()
+ #   get_films()
+  #  get_actors()
 
 if __name__ == '__main__':
     main()
